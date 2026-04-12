@@ -1,18 +1,44 @@
 import json
 import os
 import re
+import sys
+from pathlib import Path
 
-# ================= 配置区域 / Configuration Area (Users please modify here) =================
-INPUT_FILE = r"input_chat_history.json"  # 大模型导出聊天记录路径 / Path to the exported LLM chat log
-OUTPUT_FILE = r"compressed_memory.txt"   # 压缩后的输出文件路径 / Path for the compressed output file
+# ================= 配置区域（请在这里修改） =================
+INPUT_FILE = r"input_chat_history.json"   # 支持 .json 或 .txt 文件
+OUTPUT_FILE = r"compressed_memory.txt"    # 输出文件
 
-# 自定义角色名称映射 / Custom role name mapping (Change to your and your AI partner's names)
-USER_NAME = "User"    # 用户的名字 / User's name
-MODEL_NAME = "AI"     # AI 的名字 / AI's name
-# =========================================================================================
+# 自定义角色名称映射
+USER_NAME = ""      # 你的名字
+MODEL_NAME = ""     # AI 的名字
+# ===========================================================
 
-# 递归搜刮器 / Recursive scraper
+def is_json_file(file_path):
+    return str(file_path).lower().endswith('.json')
+
+def load_chat_data(file_path):
+    """根据文件类型加载数据"""
+    path = Path(file_path)
+    if not path.exists():
+        print(f"❌ 错误：找不到输入文件 {file_path}")
+        print("   请将你的聊天记录文件放到项目目录，并修改 INPUT_FILE 配置")
+        sys.exit(1)
+
+    try:
+        if is_json_file(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            # TXT 文件直接按行读取
+            with open(path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            return lines
+    except Exception as e:
+        print(f"❌ 读取文件失败：{e}")
+        sys.exit(1)
+
 def find_all_messages(data, collected_list):
+    """递归查找 JSON 中的所有消息"""
     if isinstance(data, dict):
         if 'role' in data:
             collected_list.append(data)
@@ -23,65 +49,59 @@ def find_all_messages(data, collected_list):
             find_all_messages(item, collected_list)
 
 def clean_chat_history():
-    print(f"🔍 正在读取 / Reading: {INPUT_FILE}")
-    
-    try:
-        with open(INPUT_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            
-        all_messages =[]
-        find_all_messages(data, all_messages)
-        
-        print(f"✅ 找到 {len(all_messages)} 条记录，启动【核能压缩】模式... / Found {len(all_messages)} records, starting [Nuclear Compression] mode...")
-        
-        with open(OUTPUT_FILE, 'w', encoding='utf-8') as out:
+    print("🧠 AI-Roleplay-Memory-Cleaner 启动...\n")
+
+    data = load_chat_data(INPUT_FILE)
+
+    print(f"✅ 成功读取输入文件: {INPUT_FILE}")
+
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as out:
+        if is_json_file(INPUT_FILE):
+            # 处理 JSON 文件
+            all_messages = []
+            find_all_messages(data, all_messages)
+            print(f"   找到 {len(all_messages)} 条消息，开始压缩...")
+
             for entry in all_messages:
                 role = entry.get('role', 'unknown')
-                parts = entry.get('parts',[])
+                parts = entry.get('parts', [])
+
                 final_text = ""
-                
-                # --- 提取逻辑 / Extraction logic ---
+
                 if not parts and 'text' in entry:
                     final_text = entry['text']
-                
-                if parts:
+                elif parts:
                     if isinstance(parts, str):
                         final_text = parts
                     elif isinstance(parts, list):
                         for part in parts:
-                            is_thought = False
-                            if isinstance(part, dict):
-                                is_thought = part.get('thought') is True or part.get('isThought') is True
-                            
-                            if is_thought: continue
-                            
-                            text_chunk = ""
-                            if isinstance(part, str): text_chunk = part
-                            elif isinstance(part, dict): text_chunk = part.get('text', '')
-                            
+                            if isinstance(part, dict) and (part.get('thought') is True or part.get('isThought') is True):
+                                continue
+                            text_chunk = part.get('text', '') if isinstance(part, dict) else str(part)
                             if text_chunk:
                                 final_text += text_chunk
-                
-                # --- 核心修改：使用自定义变量 / Core modification: Using custom variables ---
-                if final_text and final_text.strip():
-                    if role == "user": name = USER_NAME
-                    elif role == "model": name = MODEL_NAME
-                    else: name = role
-                    
-                    # 1. 去掉首尾空白 / Remove leading and trailing whitespace
-                    clean_content = final_text.strip()
-                    
-                    # 2. 去掉内部多余的空行 / Remove extra blank lines internally
-                    clean_content = re.sub(r'\n+', '\n', clean_content)
-                    
-                    # 3. 写入：紧凑排列 / Write: Compact layout
-                    out.write(f"{name}: {clean_content}\n")
 
-        print(f"🎉 压缩完毕！现在的密度堪比中子星！ / Compression complete! The density is now comparable to a neutron star!")
-        print(f"文件已生成 / File generated: {OUTPUT_FILE}")
-        
-    except Exception as e:
-        print(f"❌ 错误 / Error: {e}")
+                if final_text and final_text.strip():
+                    name = USER_NAME if role == "user" else MODEL_NAME if role == "model" else role
+                    clean_content = final_text.strip()
+                    clean_content = re.sub(r'\n+', '\n', clean_content)
+                    out.write(f"{name}: {clean_content}\n\n")
+
+        else:
+            # 处理 TXT 文件（直接去重空行并输出）
+            print("   检测到 TXT 输入，直接进行换行压缩...")
+            prev_line = ""
+            for line in data:
+                line = line.strip()
+                if line and line != prev_line:   # 去重连续相同行
+                    out.write(line + "\n\n")
+                    prev_line = line
+
+    output_size = os.path.getsize(OUTPUT_FILE) / 1024
+    print(f"🎉 压缩完成！")
+    print(f"   输出文件：{OUTPUT_FILE}")
+    print(f"   文件大小：{output_size:.1f} KB")
+    print(f"   已为你节省大量上下文 Token，享受纯净记忆吧！✨")
 
 if __name__ == "__main__":
     clean_chat_history()
