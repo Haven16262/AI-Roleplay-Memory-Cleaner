@@ -31,8 +31,7 @@ def load_chat_data(file_path):
         else:
             # TXT 文件直接按行读取
             with open(path, 'r', encoding='utf-8') as f:
-                lines = f.readlines()
-            return lines
+                return f.readlines()
     except Exception as e:
         print(f"❌ 读取文件失败：{e}")
         sys.exit(1)
@@ -49,18 +48,19 @@ def find_all_messages(data, collected_list):
             find_all_messages(item, collected_list)
 
 def clean_chat_history():
-    print("🧠 AI-Roleplay-Memory-Cleaner 启动...\n")
+    print("🧠 AI-Roleplay-Memory-Cleaner 极致压缩模式启动...\n")
 
     data = load_chat_data(INPUT_FILE)
-
     print(f"✅ 成功读取输入文件: {INPUT_FILE}")
+
+    line_count = 0
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as out:
         if is_json_file(INPUT_FILE):
             # 处理 JSON 文件
             all_messages = []
             find_all_messages(data, all_messages)
-            print(f"   找到 {len(all_messages)} 条消息，开始压缩...")
+            print(f"   找到 {len(all_messages)} 条消息，开始极致压缩...")
 
             for entry in all_messages:
                 role = entry.get('role', 'unknown')
@@ -84,24 +84,28 @@ def clean_chat_history():
                 if final_text and final_text.strip():
                     name = USER_NAME if role == "user" else MODEL_NAME if role == "model" else role
                     clean_content = final_text.strip()
-                    clean_content = re.sub(r'\n+', '\n', clean_content)
-                    out.write(f"{name}: {clean_content}\n\n")
+                    clean_content = re.sub(r'\n+', ' ', clean_content)   # 将所有换行转为单个空格
+                    clean_content = re.sub(r'\s+', ' ', clean_content)    # 压缩多余空格
+
+                    out.write(f"{name}: {clean_content}\n")
+                    line_count += 1
 
         else:
-            # 处理 TXT 文件（直接去重空行并输出）
-            print("   检测到 TXT 输入，直接进行换行压缩...")
-            prev_line = ""
+            # 处理 TXT 文件（极致压缩）
+            print("   检测到 TXT 输入，进行极致压缩...")
             for line in data:
                 line = line.strip()
-                if line and line != prev_line:   # 去重连续相同行
-                    out.write(line + "\n\n")
-                    prev_line = line
+                if line:
+                    clean_line = re.sub(r'\s+', ' ', line)
+                    out.write(clean_line + "\n")
+                    line_count += 1
 
     output_size = os.path.getsize(OUTPUT_FILE) / 1024
-    print(f"🎉 压缩完成！")
+    print(f"🎉 极致压缩完成！（无任何空行）")
     print(f"   输出文件：{OUTPUT_FILE}")
+    print(f"   输出行数：{line_count} 行")
     print(f"   文件大小：{output_size:.1f} KB")
-    print(f"   已为你节省大量上下文 Token，享受纯净记忆吧！✨")
+    print(f"   已最大程度节省 Token，纯净记忆已就绪！✨")
 
 if __name__ == "__main__":
     clean_chat_history()
