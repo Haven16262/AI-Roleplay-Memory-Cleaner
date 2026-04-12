@@ -50,6 +50,9 @@ python ai_studio_code.py
 - LICENSE —— MIT 协议
 - README.md —— 本说明文件
 
+### 📚 更多文档
+- [详细使用指南](docs/使用指南.md)
+
 <h2 id="english">🇬🇧 English README</h2>
 
 **A lightweight script that compresses exported LLM chat logs into high-density txt files.**
@@ -85,6 +88,9 @@ Bashpython ai_studio_code.py
 - The script automatically skips model thinking processes 
 - Works with both Chinese and English conversations
 - Output is highly compact to save tokens
+
+### 📚 More documents
+- [Detailed User Guide](使用指南.md)
 
 
 Author: Haven (Jinan University - AI Major)  
