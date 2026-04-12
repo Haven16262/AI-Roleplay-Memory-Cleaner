@@ -1,4 +1,7 @@
 # AI-Roleplay-Memory-Cleaner 🧠✨
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+![No Dependencies](https://img.shields.io/badge/Dependencies-None-success.svg)
 
 [中文](#中文) |[English](#english)
 
@@ -7,6 +10,7 @@
 <h2 id="中文">🇨🇳 中文说明</h2>
 
 **一个将 LLM 导出记录压缩为高密度 txt 的轻量级脚本。**
+
 
 在与大语言模型（如 Gemini, Claude, ChatGPT）进行长期角色扮演或深度对话时，导出的 JSON 记录往往极其庞大，包含大量冗余数据（如模型思考过程、系统提示词、多余的空行等）。这会导致在重新“喂”给模型恢复记忆时，白白消耗数十万 Token 额度。
 本项目旨在将臃肿的 JSON 聊天记录，极致压缩为纯净、高密度的 TXT 文本，最大化节省您的上下文窗口（Context Window）！
@@ -18,15 +22,15 @@
 - **本地安全化**：纯本地运行，不依赖任何第三方库，绝对保护您的私密对话记忆。
 
 ### 🚀 快速开始
-1. 下载 `clean_memory.py` 脚本文件。
-2. 使用任意文本编辑器打开脚本，修改顶部的**配置区域**：
-   ```python
-   INPUT_FILE = r"您的导出文件路径.json"
-   OUTPUT_FILE = r"压缩后的保存路径.txt"
-   USER_NAME = "您的名字"
-   MODEL_NAME = "AI的名字"
-3. 运行脚本：python clean_memory.py
-享受堪比中子星密度的纯净回忆！
+1. 把你的聊天记录导出为 JSON 文件（例如 `input_chat_history.json`）
+2. 下载本仓库中的 `ai_studio_code.py` 文件
+3. 用文本编辑器打开脚本，修改顶部的**配置区域**：
+```python
+INPUT_FILE = r"input_chat_history.json"      # 你的导出文件路径
+OUTPUT_FILE = r"compressed_memory.txt"       # 压缩后保存路径
+USER_NAME = "风"                             # 你的名字
+MODEL_NAME = "白"                            # AI 的名字
+```
 
 
 <h2 id="english">🇬🇧 English README</h2>
