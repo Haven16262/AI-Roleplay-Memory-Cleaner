@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# 输出文件（避免重复提交）
+*.txt
+compressed_memory.txt
+*.json   # 只忽略示例JSON，实际输入文件建议手动管理
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
