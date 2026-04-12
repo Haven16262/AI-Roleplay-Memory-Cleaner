@@ -7,8 +7,8 @@ INPUT_FILE = r"input_chat_history.json"  # 大模型导出聊天记录路径 / P
 OUTPUT_FILE = r"compressed_memory.txt"   # 压缩后的输出文件路径 / Path for the compressed output file
 
 # 自定义角色名称映射 / Custom role name mapping (Change to your and your AI partner's names)
-USER_NAME = "User"    # 用户的名字，例如: "风" / User's name, e.g., "Feng"
-MODEL_NAME = "AI"     # AI 的名字，例如: "白" / AI's name, e.g., "Bai"
+USER_NAME = "User"    # 用户的名字 / User's name
+MODEL_NAME = "AI"     # AI 的名字 / AI's name
 # =========================================================================================
 
 # 递归搜刮器 / Recursive scraper
