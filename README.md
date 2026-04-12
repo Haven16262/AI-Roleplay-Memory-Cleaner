@@ -90,7 +90,7 @@ Bashpython ai_studio_code.py
 - Output is highly compact to save tokens
 
 ### 📚 More documents
-- [Detailed User Guide](使用指南.md)
+- [Detailed User Guide](docs/使用指南.md)
 
 
 Author: Haven (Jinan University - AI Major)  
