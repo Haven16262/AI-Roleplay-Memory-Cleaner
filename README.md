@@ -20,6 +20,11 @@
 - **极致换行压缩**：将连续的多个空行 `\n\n\n` 压缩为单个换行 `\n`，消除文本间隙。
 - **自定义角色映射**：支持将原有的 `user` 和 `model` 标签映射为您和您的 AI 伴侣的专属名字。
 - **本地安全化**：纯本地运行，不依赖任何第三方库，绝对保护您的私密对话记忆。
+### ✨ 最新特性（v0.2.0）
+- 支持 **JSON 和 TXT** 两种输入格式
+- **极致压缩模式**：完全去除所有空行，将换行转为空格，最大程度节省 Token
+- 优化错误处理和用户提示，更友好
+- 输出文件极致紧凑，适合长期角色扮演记忆恢复
 
 ### 🚀 快速开始
 1. 把你的聊天记录导出为 JSON 文件（例如 `input_chat_history.json`）
@@ -65,6 +70,11 @@ This lightweight tool compresses bloated JSON chat logs into pure, high-density 
 - Extreme Newline Compression: Turns multiple \n\n\n into single \n
 - Custom Role Mapping: Map user/model to your and your AI companion’s names
 - Local & Secure: Runs completely offline with zero dependencies
+### ✨ Added: Latest Feature (v0.2.0)
+- Supports **JSON and TXT** input formats  
+- **Extreme Compression Mode**: Completely removes all blank lines, replaces line breaks with spaces, and maximizes token savings.
+- Improved error handling and user prompts for a more user-friendly experience.
+- Output files are extremely compact, ideal for long-term role-playing memory recovery.
 
 ### 🚀 Quick Start
 1.Export your chat history as JSON  
