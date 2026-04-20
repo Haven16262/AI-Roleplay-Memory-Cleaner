@@ -29,7 +29,7 @@
 
 3. 运行测试
    ~~~bash
-   python clean_memory.py
+   python ai_studio_code.py
    ~~~
 
 4. 测试建议场景：
