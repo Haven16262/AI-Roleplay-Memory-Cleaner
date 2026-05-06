@@ -80,8 +80,14 @@ def clean_chat_history():
         print(f"🎉 压缩完毕！现在的密度堪比中子星！ / Compression complete! The density is now comparable to a neutron star!")
         print(f"文件已生成 / File generated: {OUTPUT_FILE}")
         
+    except FileNotFoundError:
+        print(f"❌ 文件未找到 / File not found: {INPUT_FILE}")
+        print(f"💡 请确认文件路径是否正确 / Please check the file path")
+    except json.JSONDecodeError:
+        print(f"❌ JSON 解析失败 / Invalid JSON format: {INPUT_FILE}")
+        print(f"💡 请确认文件是有效的 JSON 格式 / Please ensure the file is valid JSON")
     except Exception as e:
-        print(f"❌ 错误 / Error: {e}")
+        print(f"❌ 未知错误 / Unexpected error: {e}")
 
 if __name__ == "__main__":
     clean_chat_history()

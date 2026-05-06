@@ -28,7 +28,7 @@
 
 ### 🚀 快速开始
 1. 把你的聊天记录导出为 JSON 文件（例如 `input_chat_history.json`）
-2. 下载本仓库中的 `ai_studio_code.py` 文件
+2. 下载本仓库中的 `clean_memory.py` 文件
 3. 用文本编辑器打开脚本，修改顶部的**配置区域**：
 ```python
 INPUT_FILE = r"input_chat_history.json"      # 你的导出文件路径
@@ -38,7 +38,7 @@ MODEL_NAME = ""                            # AI 的名字
 ```
 4. 运行脚本：
 ```bash
-python ai_studio_code.py
+python clean_memory.py
 ```
 5.完成后会在同目录生成 compressed_memory.txt，即可直接用于恢复记忆！
 
@@ -51,7 +51,7 @@ python ai_studio_code.py
 
 ### 📚 项目文件
 
-- ai_studio_code.py —— 主压缩脚本
+- clean_memory.py —— 主压缩脚本
 - LICENSE —— MIT 协议
 - README.md —— 本说明文件
 
@@ -78,7 +78,7 @@ This lightweight tool compresses bloated JSON chat logs into pure, high-density 
 
 ### 🚀 Quick Start
 1.Export your chat history as JSON  
-2.Download ai_studio_code.py from this repository  
+2.Download clean_memory.py from this repository  
 3.Open the script and edit the Configuration Area at the top:  
 
 ```Python
@@ -89,7 +89,7 @@ MODEL_NAME = "AI's Name"
 ```
 4.Run:
 ```bash
-Bashpython ai_studio_code.py
+python clean_memory.py
 ```
 5.The compressed compressed_memory.txt will be generated in the same folder.
 
