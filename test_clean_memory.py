@@ -1,11 +1,8 @@
 import json
 import os
-import sys
 import tempfile
 import unittest
 
-# 将脚本所在目录加入路径以便导入
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import clean_memory
 
 
